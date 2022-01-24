@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define endl "\n"
+#define ll long long
+#define pb push_back
+#define array_size(type) ((char *)(&type+1)-(char*)(&type))
+#define MOD 1000000007
+#ifndef ONLINE_JUDGE
+#define debug(x) cerr<<#x<<" "<<x<<endl;
+#else
+#define debug(x)
+#endif
+template<typename KeyType, typename v1ueType>
+std::pair<KeyType, v1ueType> get_max( const std::map<KeyType, v1ueType>& x ) {
+	using pairtype = std::pair<KeyType, v1ueType>;
+	return *std::max_element(x.begin(), x.end(), [] (const pairtype & p1, const pairtype & p2) {
+		return p1.second < p2.second;
+	});
+}
+/*
+	(a+b)%m = ((a%m)+(b%m))%m
+	(a*b)%m = ((a%m)*(b%m))%m
+	(a-b)%m = ((a%m)-(b%m) + m)%m
+*/
+void solve()
+{
+	ll q, n;
+	cin >> q >> n;
+	vector<ll>scanline(n + 1, 0);
+	for (ll i = 0; i < q; ++i)
+	{
+		ll x, y;
+		cin >> x >> y;
+		ll left, right;
+		left = x - y;
+		right = x + y;
+		if (left < 0) {
+			left = 0;
+		}
+		else if (right > n - 1) {
+			right = n - 1;
+		}
+		debug(left)
+		debug(right)
+		scanline[left] += 1;
+		scanline[right + 1] -= 1;
+
+	}
+	ll scan = 0;
+	for (ll i = 0; i < n; ++i)
+	{
+		scan += scanline[i];
+		scanline[i] = scan;
+	}
+	ll dark = 0;
+	vector<ll>final;
+	for (ll i = 0; i < scanline.size(); ++i)
+	{
+		if (scanline[i] == 0 || scanline[i] > 1 || scanline[i] < 0) {
+			dark++;
+		}
+		else {
+			final.pb(dark);
+			dark = 0;
+		}
+
+		// cout << scanline[i] << " ";
+	}
+	cout << *max_element(final.begin(), final.end()) << endl;
+}
+signed main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+#ifndef ONLINE_JUDGE
+	freopen("error.txt", "w", stderr);
+#endif
+	ll t = 1;
+	// cin >> t;
+	while (t--) solve();
+	return 0;
+}
