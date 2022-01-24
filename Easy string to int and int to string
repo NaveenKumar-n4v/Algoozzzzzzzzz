@@ -1,0 +1,7 @@
+int s = 1010;
+	string x = to_string(s);
+	cout << x;
+
+	string s1 = "1010";
+	int p = stoi(s1);
+	cout << p;
